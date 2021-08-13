@@ -18,7 +18,7 @@ def index():
 @application.route('/<id>', methods=['GET', 'POST'])
 def socCode(id='socCode'):
     
-    print('Here')
+    print('The program is here.')
     print(socCode)
     if request.method == "POST":
         JD = request.form["jd"]
