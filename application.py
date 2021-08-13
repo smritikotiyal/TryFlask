@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request, render_template
 import numpy as np
 import pandas as pd
-import json
+# import json
 
 # For model dumping
 import joblib
@@ -64,21 +64,27 @@ def socCode(id='socCode'):
                     break
             print(prediction)
         
-        return prediction
+        return prediction, most_prob_soc
         # return result_rf, result_nb
 
     def predictSOC(input_data):
         prediction = {}
         # Prediction to find SOC of new Data
-        predict_soc = modelPredict(input_data)
-        return predict_soc
+        predict_soc, list_soc  = modelPredict(input_data)
+        return list_soc, predict_soc
     
-    details = predictSOC(JD)
-    print(details)
-    json_object = json.dumps(details, indent = 4)
-    print(json_object)
+    result = ''
+    list_soc, details = predictSOC(JD)
+    
+    result += str(details[str(list_soc[0])]) + '\n'
+    result += str(details[str(list_soc[1])]) + '\n'
+    result += str(details[str(list_soc[2])])
+    print(result)
 
-    return render_template('register.html', data=[json_object])
+    '''json_object = json.dumps(details, indent = 4)
+    print(json_object)'''
+
+    return render_template('register.html', data= result)
 
 if __name__ == '__main__':
     application.run(debug=True)
